@@ -63,12 +63,10 @@ public class LineaTiempo extends JFrame {
 class Evento {
     String fecha;
     String suceso;
-    String rutaImagen;
 
     public Evento(String fecha, String suceso) {
         this.fecha = fecha;
         this.suceso = suceso;
-        this.rutaImagen = rutaImagen;
     }
 }
 
@@ -118,7 +116,7 @@ class TimelinePanel extends JPanel {
             // Fecha arriba
             g2.drawString(ev.fecha, x - 20, y - 20);
 
-            // Texto del suceso abajo (multilínea)
+            // Texto del suceso abajo (multilinea)
             drawStringMultiline(g2, ev.suceso, x - 80, y + 30, 160);
         }  
         
@@ -147,4 +145,5 @@ class TimelinePanel extends JPanel {
         g2.drawString(line, x, y);
     }
 }
+
 
