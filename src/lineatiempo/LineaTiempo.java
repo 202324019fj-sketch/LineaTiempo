@@ -154,8 +154,9 @@ class TimelinePanel extends JPanel {
                 line += word + " ";
             }
         }
-        // Se crea la ultima lnea
+        // Se crea la ultima linea
         g2.drawString(line, x, y);
     }
 }
+
 
