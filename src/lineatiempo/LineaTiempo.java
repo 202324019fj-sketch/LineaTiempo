@@ -21,22 +21,22 @@ public class LineaTiempo extends JFrame {
         // Titulo de la ventana
         setTitle("Línea de Tiempo de Sistemas Operativos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(900, 500); // Tamaño de ventana
+        setSize(1100, 600); // Tamaño de ventana
         // Centrar la ventana
         setLocationRelativeTo(null);
         
         // Lista de eventos (fecha + suceso)
         java.util.List<Evento> eventos = Arrays.asList(
-            new Evento("1940", "Se accedia directamente a la consola donde se actuaba sobre una serie de micro interruptores."), 
-            new Evento("1950", "Los sistemas operativos hacen una aparicion discreta y bastante simple."),
-            new Evento("1970", "La universidad de Stanford inauguro su servicio de Red de Internet."),
-            new Evento("1976", "AT&T desarrollo un protocolo de comunicacion con el sistema operativo UNIX."),
-            new Evento("1980", "Se crea este sistema operativo, pero hasta la salida de Windows 95 se le considera un sistema operativo."),
-            new Evento("1981", "Microsoft compro un sistema operativo: MS-DOS."),
-            new Evento("1984", "El lanzamiento oficial del ordenador que incluia Mac OS."),
-            new Evento("1990", "Este sistema es una versión mejorada de Unix. Al principio trabajaba en comandos."),
-            new Evento("1976-2010", "Windows 98, XP, Windows Milenio y años despues Windows 2000, 2007."),
-            new Evento("2013", "Google presenta una nueva version de su sistema operativo Android y sale Windows 8.")
+            new Evento("1940", "Se accedia directamente a la consola donde se actuaba sobre una serie de micro interruptores.", "imagenes/1.jpeg"), 
+            new Evento("1950", "Los sistemas operativos hacen una aparicion discreta y bastante simple.", "imagenes/2.jpeg"),
+            new Evento("1970", "La universidad de Stanford inauguro su servicio de Red de Internet.", "imagenes/3.jpeg"),
+            new Evento("1976", "AT&T desarrollo un protocolo de comunicacion con el sistema operativo UNIX.", "imagenes/4.jpeg"),
+            new Evento("1980", "Se crea este sistema operativo, pero hasta la salida de Windows 95 se le considera un sistema operativo.", "imagenes/5.jpeg"),
+            new Evento("1981", "Microsoft compro un sistema operativo: MS-DOS.", "imagenes/5.png"),
+            new Evento("1984", "El lanzamiento oficial del ordenador que incluia Mac OS.", "imagenes/7.png"),
+            new Evento("1990", "Este sistema es una versión mejorada de Unix. Al principio trabajaba en comandos.", "imagenes/8.jpeg"),
+            new Evento("1976-2010", "Windows 98, XP, Windows Milenio y años despues Windows 2000, 2007.", "imagenes/9.jpeg"),
+            new Evento("2013", "Google presenta una nueva version de su sistema operativo Android y sale Windows 8.", "imagenes/10.jpeg")
         );
 
         // Panel que dibuja la linea de tiempo
@@ -63,13 +63,20 @@ public class LineaTiempo extends JFrame {
 class Evento {
     String fecha;
     String suceso;
+    String rutaImagen;
+    Image imagen; 
 
-    public Evento(String fecha, String suceso) {
+    public Evento(String fecha, String suceso, String rutaImagen) {
         this.fecha = fecha;
         this.suceso = suceso;
+        this.rutaImagen = rutaImagen;
+        
+        if (rutaImagen != null) {
+            ImageIcon icon = new ImageIcon(rutaImagen);
+            this.imagen = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH); 
+        }
     }
 }
-
 
 // Panel que dibuja la linea de tiempo
 class TimelinePanel extends JPanel {
@@ -78,7 +85,7 @@ class TimelinePanel extends JPanel {
     public TimelinePanel(java.util.List<Evento> eventos) {
         this.eventos = eventos;
         //Define el tamaño del panel
-        setPreferredSize(new Dimension(200 * eventos.size(), 400));
+        setPreferredSize(new Dimension(250 * eventos.size(), 500));
         //Cambia el color de fondo
         setBackground(new Color(220, 235, 250)); 
     }
@@ -94,9 +101,9 @@ class TimelinePanel extends JPanel {
         // Línea en el centro
         int y = h / 2; 
         // Margen izquierdo
-        int margin = 60;
+        int margin = 100;
         //Distancia entre eventos
-        int espacio = 180; 
+        int espacio = 220; 
 
         // Dibujar la linea central
         g2.setStroke(new BasicStroke(3));
@@ -112,12 +119,18 @@ class TimelinePanel extends JPanel {
             g2.setColor(Color.RED);
             g2.fillOval(x - 5, y - 5, 10, 10);
 
-            g2.setColor(Color.BLACK);
-            // Fecha arriba
-            g2.drawString(ev.fecha, x - 20, y - 20);
+             // Dibujar imagen arriba de la fecha
+            if (ev.imagen != null) {
+                g2.drawImage(ev.imagen, x - 40, y - 160, this);
+            }
 
-            // Texto del suceso abajo (multilinea)
-            drawStringMultiline(g2, ev.suceso, x - 80, y + 30, 160);
+            // Fecha debajo de la imagen
+            g2.setColor(Color.BLACK);
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            g2.drawString(ev.fecha, x - 20, y - 60);
+
+            // Texto del suceso debajo de la línea
+            drawStringMultiline(g2, ev.suceso, x - 80, y + 40, 160);
         }  
         
 
@@ -145,5 +158,4 @@ class TimelinePanel extends JPanel {
         g2.drawString(line, x, y);
     }
 }
-
 
